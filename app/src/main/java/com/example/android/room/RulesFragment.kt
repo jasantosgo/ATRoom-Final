@@ -33,10 +33,9 @@ class RulesFragment : Fragment() {
             inflater, R.layout.fragment_rules, container, false)
 
         binding.btnRulesToTitle.setOnClickListener{
-            it.findNavController().navigate(RulesFragmentDirections.actionRulesFragmentToTitleFragment())
+            it.findNavController().popBackStack()
         }
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_rules, container, false)
+
         return binding.root
     }
 }

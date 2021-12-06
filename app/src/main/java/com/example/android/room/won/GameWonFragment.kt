@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.room
+package com.example.android.room.won
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +22,7 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.android.room.R
 import com.example.android.room.databinding.FragmentGameWonBinding
 
 
@@ -39,7 +40,11 @@ class GameWonFragment : Fragment() {
         binding.tvPuntuacion.text = resources.getString(R.string.total_score,puntuacion,numAciertos,numPreguntas)
 
         binding.nextMatchButton.setOnClickListener {
-            it.findNavController().navigate(GameWonFragmentDirections.actionGameWonFragmentToGameFragment(numPreguntas))
+            it.findNavController().navigate(
+                GameWonFragmentDirections.actionGameWonFragmentToGameFragment(
+                    numPreguntas
+                )
+            )
         }
 
         binding.btnSalirWon.setOnClickListener {

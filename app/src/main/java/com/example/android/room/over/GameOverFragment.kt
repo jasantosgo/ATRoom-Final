@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.room
+package com.example.android.room.over
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +22,8 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.android.room.won.GameWonFragmentArgs
+import com.example.android.room.R
 import com.example.android.room.databinding.FragmentGameOverBinding
 
 class GameOverFragment : Fragment() {
@@ -38,7 +40,11 @@ class GameOverFragment : Fragment() {
         binding.tvPuntuacionOver.text = resources.getString(R.string.total_score,puntuacion,numAciertos,numPreguntas)
 
         binding.tryAgainButton.setOnClickListener {
-            it.findNavController().navigate(GameOverFragmentDirections.actionGameOverFragmentToGameFragment(numPreguntas))
+            it.findNavController().navigate(
+                GameOverFragmentDirections.actionGameOverFragmentToGameFragment(
+                    numPreguntas
+                )
+            )
         }
 
         binding.btnSalirOver.setOnClickListener {

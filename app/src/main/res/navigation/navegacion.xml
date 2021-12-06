@@ -6,7 +6,7 @@
     app:startDestination="@id/titleFragment">
     <fragment
         android:id="@+id/titleFragment"
-        android:name="com.example.android.room.TitleFragment"
+        android:name="com.example.android.room.title.TitleFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_title" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.android.room.GameFragment"
+        android:name="com.example.android.room.game.GameFragment"
         android:label="GameFragment"
         tools:layout="@layout/fragment_game" >
         <action
@@ -36,12 +36,12 @@
             app:destination="@id/gameWonFragment"
             app:popUpTo="@id/titleFragment" />
         <argument
-            android:name="numPreguntas"
+            android:name="nivel"
             app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/gameOverFragment"
-        android:name="com.example.android.room.GameOverFragment"
+        android:name="com.example.android.room.over.GameOverFragment"
         android:label="fragment_game_over"
         tools:layout="@layout/fragment_game_over" >
         <action
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameWonFragment"
-        android:name="com.example.android.room.GameWonFragment"
+        android:name="com.example.android.room.won.GameWonFragment"
         android:label="fragment_game_won"
         tools:layout="@layout/fragment_game_won" >
         <action

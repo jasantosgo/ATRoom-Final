@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.room
+package com.example.android.room.game
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.android.room.R
 import com.example.android.room.databinding.FragmentGameBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -59,15 +60,9 @@ class GameFragment : Fragment() {
         obtienePreguntas()
 
         //Toma el valor mínimo del número de preguntas+1 dividido entre 2 o el número que llega segun el nivel.
-        val args = GameFragmentArgs.fromBundle(requireArguments())
-        numQuestions = Math.min(questions.size, args.numPreguntas)
-        var nivel : String
-        when(args.numPreguntas) {
-            2-> nivel = resources.getStringArray(R.array.niveles)[0]
-            4-> nivel = resources.getStringArray(R.array.niveles)[1]
-            6-> nivel = resources.getStringArray(R.array.niveles)[2]
-            else-> nivel="No determinado"
-        }
+        val numNivel = GameFragmentArgs.fromBundle(requireArguments()).nivel
+        numQuestions = Math.min(questions.size, (numNivel+1)*2)
+        val nivel : String = resources.getStringArray(R.array.niveles)[numNivel]
 
         binding.tvLevel.apply {
             text= resources.getString(R.string.nivel_puntuacion,nivel)
@@ -109,11 +104,23 @@ class GameFragment : Fragment() {
                         binding.invalidateAll()
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
-                        view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameWonFragment(questionIndex,numQuestions,score))
+                        view.findNavController().navigate(
+                            GameFragmentDirections.actionGameFragmentToGameWonFragment(
+                                questionIndex,
+                                numQuestions,
+                                score
+                            )
+                        )
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
-                    view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment(questionIndex,numQuestions,score))
+                    view.findNavController().navigate(
+                        GameFragmentDirections.actionGameFragmentToGameOverFragment(
+                            questionIndex,
+                            numQuestions,
+                            score
+                        )
+                    )
                 }
             }
         }

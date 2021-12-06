@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Trivial Android</string>
     <string name="game_over">Fin del juego</string>
-    <string name="try_again">¿Continuar?</string>
+    <string name="try_again">Reintentar</string>
     <string name="position">Posición</string>
     <string name="select_an_avatar">Selecciona un avatar</string>
     <string name="android_trivia">Trivial Android</string>

@@ -1,11 +1,13 @@
-package com.example.android.room
+package com.example.android.room.title
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.android.room.R
 import com.example.android.room.databinding.FragmentTitleBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -13,7 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class TitleFragment : Fragment() {
 
-    private var nivel : Int = -1
+    private lateinit var titleVM : titleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +27,19 @@ class TitleFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentTitleBinding>(inflater,
             R.layout.fragment_title,container,false)
-        nivel=-1
+
+        titleVM = ViewModelProvider(this).get(titleViewModel::class.java)
+
         //Botón de Play que lleva al fragmento GameFragment.
         binding.playButton.setOnClickListener { view : View ->
-            if(nivel==-1) {
+            if(titleVM.nivel==-1) {
                 Snackbar.make(requireContext(), view, resources.getString(R.string.debes_selec_nivel), Snackbar.LENGTH_SHORT).show()
             } else {
-                view.findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToGameFragment(nivel))
+                view.findNavController().navigate(
+                    TitleFragmentDirections.actionTitleFragmentToGameFragment(
+                        titleVM.nivel
+                    )
+                )
             }
 
         }
@@ -66,18 +74,18 @@ class TitleFragment : Fragment() {
 
     fun mostrarLevelDialog() {
         val singleItems = resources.getStringArray(R.array.niveles)
-        val checkedItem = nivel
-        var intermedio = nivel
+        val checkedItem = titleVM.nivel
+        var intermedio = titleVM.nivel
 
         MaterialAlertDialogBuilder(requireView().context)
             .setTitle(R.string.seleccion_nivel)
             .setNeutralButton(R.string.cancelar) { dialog, which ->
                 // Respond to neutral button press
-                nivel=-1
+                titleVM.estableceNivel(-1)
             }
             .setPositiveButton(R.string.aceptar) { dialog, which ->
                 // Respond to positive button press
-                nivel=(intermedio+1)*2
+                titleVM.estableceNivel(intermedio)
             }
             // Single-choice items (initialized with checked item)
             .setSingleChoiceItems(singleItems, checkedItem) { dialog, which ->

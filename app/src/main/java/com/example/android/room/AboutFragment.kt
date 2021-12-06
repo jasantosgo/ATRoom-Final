@@ -35,13 +35,9 @@ class AboutFragment : Fragment() {
 
         //incluimos click listener al boton de volver al titulo y navega hasta él.
         binding.btnAboutToTitle.setOnClickListener{
-            //navegación estándar.
-            //it.findNavController().navigate(AboutFragmentDirections.actionAboutFragmentToTitleFragment())
-            //otro modo para que la pila quede vacía y se cierre la aplicación al pulsar el botón de retroceso en la pantalla de título.
             it.findNavController().popBackStack()
         }
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_about, container, false)
+
         return binding.root
     }
 }

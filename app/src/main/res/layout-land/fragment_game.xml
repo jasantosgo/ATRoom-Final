@@ -23,7 +23,7 @@
 
         <variable
             name="game"
-            type="com.example.android.room.GameFragment" />
+            type="com.example.android.room.game.GameFragment" />
     </data>
 
     <ScrollView

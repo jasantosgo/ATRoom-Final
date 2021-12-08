@@ -1,10 +1,14 @@
 package com.example.android.room.new_question
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +21,10 @@ import com.example.android.room.databinding.FragmentQuestionsBinding
 import com.example.android.room.game.GameViewModel
 import com.example.android.room.game.GameViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 class NewQuestionFragment : Fragment() {
 
@@ -51,15 +59,17 @@ class NewQuestionFragment : Fragment() {
             val correcta = binding.etCorrectAns.text.toString()
             val segunda = binding.etAnsTwo.text.toString()
             val tercera = binding.etAnsThree.text.toString()
-            val cuarta = binding.etAnsFour.toString()
+            val cuarta = binding.etAnsFour.text.toString()
+            val pista = binding.etHint.text.toString()
             if(enunciado.isNotBlank() &&
                 correcta.isNotBlank() &&
                 segunda.isNotBlank() &&
                 tercera.isNotBlank() &&
-                cuarta.isNotBlank()) {
-                    newQVM.insertaPregunta(enunciado,correcta,segunda,tercera,cuarta)
+                cuarta.isNotBlank() &&
+                pista.isNotBlank()) {
+                    newQVM.insertaPregunta(enunciado,correcta,segunda,tercera,cuarta,pista)
             } else {
-                Snackbar.make(requireContext(),requireView(),"Debes completar todos los campos", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(requireContext(),requireView(),getString(R.string.complete_fields), Snackbar.LENGTH_SHORT).show()
             }
 
         }

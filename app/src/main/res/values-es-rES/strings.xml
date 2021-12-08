@@ -46,6 +46,9 @@
     <string name="second_answer">Segunda respuesta</string>
     <string name="third_answer">Tercera respuesta</string>
     <string name="fourth_answer">Cuarta respuesta</string>
+    <string name="text_hint">Indica una pista:</string>
+    <string name="inserted_question">Pregunta insertada satisfactoriamente.</string>
+    <string name="complete_fields">Debes completar todos los campos.</string>
     <string-array name="niveles">
         <item>Fácil</item>
         <item>Medio</item>

@@ -61,9 +61,12 @@
     <string name="second_answer">Second answer</string>
     <string name="third_answer">Third answer</string>
     <string name="fourth_answer">Fourth answer</string>
+    <string name="text_hint">Write a Hint:</string>
     <string-array name="niveles">
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>
     </string-array>
+    <string name="inserted_question">Question has been inserted satisfactorily.</string>
+    <string name="complete_fields">You must complete all the fields.</string>
 </resources>

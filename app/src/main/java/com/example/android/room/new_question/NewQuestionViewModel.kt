@@ -24,8 +24,8 @@ class NewQuestionViewModel(
         _newQuestion.value = false
     }
 
-    fun insertaPregunta(enunciado: String, correcta: String, segunda: String, tercera: String, cuarta: String) {
-        val question = Question(text=enunciado,answer_one = correcta,answer_two = segunda,answer_three = tercera,answer_four = cuarta,hint="")
+    fun insertaPregunta(enunciado: String, correcta: String, segunda: String, tercera: String, cuarta: String, pista: String) {
+        val question = Question(text=enunciado,answer_one = correcta,answer_two = segunda,answer_three = tercera,answer_four = cuarta,hint=pista)
         viewModelScope.launch {
             newQuestion(question)
             _newQuestion.value = true

@@ -21,6 +21,10 @@
             android:id="@+id/action_titleFragment_to_aboutFragment"
             app:destination="@id/aboutFragment"
             app:popUpTo="@id/titleFragment" />
+        <action
+            android:id="@+id/action_titleFragment_to_questionsFragment"
+            app:destination="@id/questionsFragment"
+            app:popUpTo="@id/titleFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -95,4 +99,18 @@
             android:id="@+id/action_rulesFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/questionsFragment"
+        android:name="com.example.android.room.questions.QuestionsFragment"
+        android:label="@string/list_questions"
+        tools:layout="@layout/fragment_questions" >
+        <action
+            android:id="@+id/action_questionsFragment_to_newQuestionFragment"
+            app:destination="@id/newQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newQuestionFragment"
+        android:name="com.example.android.room.new_question.NewQuestionFragment"
+        android:label="@string/new_question"
+        tools:layout="@layout/fragment_new_question"/>
 </navigation>

@@ -21,12 +21,17 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.android.room.won.GameWonFragmentArgs
 import com.example.android.room.R
 import com.example.android.room.databinding.FragmentGameOverBinding
 
 class GameOverFragment : Fragment() {
+
+    private lateinit var gameOverVM: GameOverViewModel
+    private lateinit var gameOverVMF: GameOverViewModelFactory
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -34,15 +39,21 @@ class GameOverFragment : Fragment() {
             inflater, R.layout.fragment_game_over, container, false)
 
         val args = GameWonFragmentArgs.fromBundle(requireArguments())
-        val numAciertos = args.numAciertos
-        val numPreguntas = args.numPreguntas
-        val puntuacion = args.puntuacion
-        binding.tvPuntuacionOver.text = resources.getString(R.string.total_score,puntuacion,numAciertos,numPreguntas)
+        gameOverVMF = GameOverViewModelFactory(args.numAciertos,args.numPreguntas,args.puntuacion)
+        gameOverVM = ViewModelProvider(this,gameOverVMF).get(GameOverViewModel::class.java)
+
+        binding.tvPuntuacionOver.text = resources.getString(R.string.total_score,gameOverVM.puntuacion,gameOverVM.numAciertos,gameOverVM.numPreguntas)
 
         binding.tryAgainButton.setOnClickListener {
+            var nivel = 0
+            when(gameOverVM.numPreguntas) {
+                2 -> nivel = 0
+                4 -> nivel = 1
+                6 -> nivel = 2
+            }
             it.findNavController().navigate(
                 GameOverFragmentDirections.actionGameOverFragmentToGameFragment(
-                    numPreguntas
+                    nivel
                 )
             )
         }

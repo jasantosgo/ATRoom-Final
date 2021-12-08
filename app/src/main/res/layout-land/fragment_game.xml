@@ -22,8 +22,8 @@
     <data>
 
         <variable
-            name="game"
-            type="com.example.android.room.game.GameFragment" />
+            name="gameVM"
+            type="com.example.android.room.game.GameViewModel" />
     </data>
 
     <ScrollView
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_margin"
                 android:fontFamily="sans-serif"
-                android:text="@{game.currentQuestion.text}"
+                android:text="@{gameVM.currentQuestion.text}"
                 android:textSize="@dimen/question_text_size"
                 android:textStyle="bold"
                 android:typeface="normal"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vertical_margin"
                     android:checked="true"
-                    android:text="@{game.answers[0]}"
+                    android:text="@{gameVM.answers[0]}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Blue" />
 
@@ -120,7 +120,7 @@
                     android:id="@+id/secondAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{game.answers[1]}"
+                    android:text="@{gameVM.answers[1]}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Green" />
 
@@ -128,7 +128,7 @@
                     android:id="@+id/thirdAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{game.answers[2]}"
+                    android:text="@{gameVM.answers[2]}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Yellow" />
 
@@ -136,7 +136,7 @@
                     android:id="@+id/fourthAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{game.answers[3]}"
+                    android:text="@{gameVM.answers[3]}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Red" />
 

@@ -51,72 +51,19 @@
     <string name="total_score">Congratulations, you got %1$d droids. You answered %2$d/%3$d questions correctly.</string>
     <string name="exit">Exit</string>
     <string name="proxima">Retry?</string>
+    <string name="questions">Questions</string>
+    <string name="list_questions">List of questions</string>
+    <string name="newQuestion">New</string>
+    <string name="guardar">Save</string>
+    <string name="new_question">New Question</string>
+    <string name="correct_answer">Correct answer:</string>
+    <string name="alternative_answers">Alternative answers:</string>
+    <string name="second_answer">Second answer</string>
+    <string name="third_answer">Third answer</string>
+    <string name="fourth_answer">Fourth answer</string>
     <string-array name="niveles">
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>
-    </string-array>
-
-    <string-array name="preguntas">
-        <item>What is Android Jetpack?"</item>
-        <item>All of these</item>
-        <item>Tools</item>
-        <item>Documentation</item>
-        <item>Libraries</item>
-        <item>It is very complete</item>
-        <item>What is the base class for layouts?</item>
-        <item>ViewGroup</item>
-        <item>ViewSet</item>
-        <item>ViewCollection</item>
-        <item>ViewRoot</item>
-        <item>It works as an invisible container</item>
-        <item>What layout do you use for complex screens?</item>
-        <item>ConstraintLayout</item>
-        <item>GridLayout</item>
-        <item>LinearLayout</item>
-        <item>FrameLayout</item>
-        <item>This layout uses restrictions between Views</item>
-        <item>What do you use to push structured data into a layout?</item>
-        <item>Data binding</item>
-        <item>Data pushing</item>
-        <item>Set text</item>
-        <item>An OnClick method</item>
-        <item>It is a technique to linking XML with Kotlin files.</item>
-        <item>What method do you use to inflate layouts in fragments?</item>
-        <item>onCreateView()</item>
-        <item>onActivityCreated()</item>
-        <item>onCreateLayout()</item>
-        <item>onInflateLayout()</item>
-        <item>This method is related to views.</item>
-        <item>What is the build system for Android?</item>
-        <item>Gradle</item>
-        <item>Graddle</item>
-        <item>Grodle</item>
-        <item>Groyle</item>
-        <item>It is used for compilation.</item>
-        <item>Which class do you use to create a vector drawable?</item>
-        <item>VectorDrawable</item>
-        <item>AndroidVectorDrawable</item>
-        <item>DrawableVector</item>
-        <item>AndroidVector</item>
-        <item>Push your luck...</item>
-        <item>Which one of these is an Android navigation component?</item>
-        <item>NavController</item>
-        <item>NavCentral</item>
-        <item>NavMaster</item>
-        <item>NavSwitcher</item>
-        <item>It is a driver.</item>
-        <item>Which XML element lets you register an activity with the launcher activity?</item>
-        <item>intent-filter</item>
-        <item>app-registry</item>
-        <item>launcher-registry</item>
-        <item>app-launcher</item>
-        <item>It is similar to comunicate activities.</item>
-        <item>What do you use to mark a layout for data binding?</item>
-        <item>layout</item>
-        <item>binding</item>
-        <item>data-binding</item>
-        <item>dbinding</item>
-        <item>First needed tag in XML files.</item>
     </string-array>
 </resources>

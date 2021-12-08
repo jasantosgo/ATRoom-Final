@@ -23,31 +23,19 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.android.room.R
+import com.example.android.room.database.QuestionDB
 import com.example.android.room.databinding.FragmentGameBinding
 import com.google.android.material.snackbar.Snackbar
 
 class GameFragment : Fragment() {
-    data class Question(
-        val text: String,
-        val answers: List<String>,
-        val hint: String
-    )
 
-    // The first answer is the correct one.  We randomize the answers before showing the text.
-    // All questions must have four answers.  We'd want these to contain references to string
-    // resources so we could internationalize. (Or better yet, don't define the questions in code...)
-    private val questions: MutableList<Question> = mutableListOf()
-
-    lateinit var currentQuestion: Question
-    lateinit var answers: MutableList<String>
-    private var questionIndex = 0
-    private var numQuestions = 0
-    private var hint = ""
-    private var hintUsed = false
-    private var score = 0
-    private var streak = 1
+    private lateinit var gameVM: GameViewModel
+    private lateinit var gameVMF: GameViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -56,31 +44,34 @@ class GameFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentGameBinding>(
             inflater, R.layout.fragment_game, container, false)
 
-        //obtiene las preguntas de strings.xml y las carga en questions
-        obtienePreguntas()
+        val application = requireNotNull(this.activity).application
+        //obtener el DAO de la base de datos.
+        val dataSource = QuestionDB.getInstance(application).questionDAO
+        //Creación de la fábrica y obtención del ViewModel. Se le pasa el nivel, DAO y el contexto de aplicación para la BD.
+        gameVMF = GameViewModelFactory(GameFragmentArgs.fromBundle(requireArguments()).nivel,dataSource,application)
+        gameVM = ViewModelProvider(this, gameVMF).get(GameViewModel::class.java)
 
-        //Toma el valor mínimo del número de preguntas+1 dividido entre 2 o el número que llega segun el nivel.
-        val numNivel = GameFragmentArgs.fromBundle(requireArguments()).nivel
-        numQuestions = Math.min(questions.size, (numNivel+1)*2)
-        val nivel : String = resources.getStringArray(R.array.niveles)[numNivel]
+        // Enlazar el XML al ViewModel.
+        binding.gameVM = gameVM
+        binding.lifecycleOwner = viewLifecycleOwner
 
+        //inicializar el label con el nivel.
         binding.tvLevel.apply {
-            text= resources.getString(R.string.nivel_puntuacion,nivel)
+            text= resources.getString(R.string.nivel_puntuacion,resources.getStringArray(R.array.niveles)[gameVM.nivel])
         }
 
-        // Shuffles the questions and sets the question index to the first question.
-        randomizeQuestions()
-
-        // Bind this fragment class to the layout
-        binding.game = this
+        //Observamos el Livedata de puntuación para actualizar el título.
+        gameVM.score.observe(viewLifecycleOwner, Observer { score ->
+            (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, gameVM.questionIndex + 1, gameVM.numQuestions, score)
+        })
 
         binding.btnHint.setOnClickListener {
-            mostrarPista(it)
+            mostrarPista()
         }
 
         // Set the onClickListener for the submitButton
         binding.submitButton.setOnClickListener @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-        { view: View ->
+        {
             val checkedId = binding.questionRadioGroup.checkedRadioButtonId
             // Do nothing if nothing is checked (id == -1)
             if (-1 != checkedId) {
@@ -90,77 +81,45 @@ class GameFragment : Fragment() {
                     R.id.thirdAnswerRadioButton -> answerIndex = 2
                     R.id.fourthAnswerRadioButton -> answerIndex = 3
                 }
-                // The first answer in the original question is always the correct one, so if our
-                // answer matches, we have the correct answer.
-                if (answers[answerIndex] == currentQuestion.answers[0]) {
-                    //actualizamos la puntuacion...
-                    score+=if(hintUsed) 10*streak/2 else 10*streak
-                    streak++
-                    questionIndex++
-                    // Advance to the next question
-                    if (questionIndex < numQuestions) {
-                        currentQuestion = questions[questionIndex]
-                        setQuestion()
-                        binding.invalidateAll()
-                    } else {
-                        // We've won!  Navigate to the gameWonFragment.
-                        view.findNavController().navigate(
-                            GameFragmentDirections.actionGameFragmentToGameWonFragment(
-                                questionIndex,
-                                numQuestions,
-                                score
-                            )
-                        )
-                    }
-                } else {
-                    // Game over! A wrong answer sends us to the gameOverFragment.
-                    view.findNavController().navigate(
-                        GameFragmentDirections.actionGameFragmentToGameOverFragment(
-                            questionIndex,
-                            numQuestions,
-                            score
-                        )
-                    )
-                }
+                //vamos a comprobar el acierto y actuar en consecuencia. En ese metodo se pueden activar
+                //las banderas de "gameWon" y de "gameOver"
+                gameVM.comprobarAcierto(answerIndex)
             }
         }
+
+        //bandera para indicar que se ha perdido el juego.
+        gameVM.gameOver.observe(viewLifecycleOwner, Observer { haPerdido ->
+            if(haPerdido) {
+                findNavController().navigate(
+                    GameFragmentDirections.actionGameFragmentToGameOverFragment(
+                        gameVM.questionIndex,
+                        gameVM.numQuestions,
+                        (gameVM.score.value)?:0
+                    )
+                )
+                gameVM.onGameOverComlete()
+            }
+        })
+
+        //Se observa el flag "gameWon" que se levanta cuando la pregunta actual es igual al numero de preguntas que se deben responder.
+        gameVM.gameWon.observe(viewLifecycleOwner, Observer { haGanado ->
+            if(haGanado) {
+                this.findNavController().navigate(
+                    GameFragmentDirections.actionGameFragmentToGameWonFragment(
+                        gameVM.questionIndex,
+                        gameVM.numQuestions,
+                        (gameVM.score.value)?:0
+                    )
+                )
+                gameVM.onGameWonComplete()
+            }
+        })
 
         return binding.root
     }
 
-    private fun obtienePreguntas() {
-        val listaPreguntas = resources.getStringArray(R.array.preguntas)
-        var i=0
-        //questions.add(Question(text = "Pregunta1", answers = listOf<String>("respuesta1","respuesta2","respuesta3","respuesta4"),hint = "Pista1"))
-        while (i<listaPreguntas.size) {
-            questions.add(Question(text = listaPreguntas[i],answers = listOf(listaPreguntas[i+1],listaPreguntas[i+2],listaPreguntas[i+3],listaPreguntas[i+4]),hint = listaPreguntas[i+5]))
-            i+=6
-        }
-    }
-
-    // randomize the questions and set the first question
-    private fun randomizeQuestions() {
-        questions.shuffle()
-        questionIndex = 0
-        setQuestion()
-    }
-
-    // Sets the question and randomizes the answers.  This only changes the data, not the UI.
-    // Calling invalidateAll on the FragmentGameBinding updates the data.
-    private fun setQuestion() {
-        currentQuestion = questions[questionIndex]
-        // randomize the answers into a copy of the array
-        answers = currentQuestion.answers.toMutableList()
-        // and shuffle them
-        answers.shuffle()
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, questionIndex + 1, numQuestions, score)
-        //actualizar pista a false
-        hint = currentQuestion.hint
-        hintUsed=false
-    }
-
-    private fun mostrarPista(view: View) {
-        Snackbar.make(requireContext(),view,hint,Snackbar.LENGTH_LONG).show()
-        hintUsed=true
+    private fun mostrarPista() {
+        Snackbar.make(requireContext(),requireView(),gameVM.hint,Snackbar.LENGTH_LONG).show()
+        gameVM.pistaUsada()
     }
 }

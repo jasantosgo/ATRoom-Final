@@ -22,8 +22,8 @@
     <data>
 
         <variable
-            name="game"
-            type="com.example.android.room.game.GameFragment" />
+            name="gameVM"
+            type="com.example.android.room.game.GameViewModel" />
     </data>
 
     <ScrollView
@@ -61,7 +61,7 @@
                 android:layout_marginEnd="@dimen/question_horizontal_margin"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:fontFamily="sans-serif"
-                android:text="@{game.currentQuestion.text}"
+                android:text="@{gameVM.currentQuestion.text}"
                 android:textSize="@dimen/question_text_size"
                 android:textStyle="bold"
                 android:typeface="normal"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/question_vertical_margin"
                     android:checked="true"
-                    android:text="@{game.answers[0]}"
+                    android:text="@{gameVM.answer_one}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Blue" />
 
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/question_vertical_margin"
-                    android:text="@{game.answers[1]}"
+                    android:text="@{gameVM.answer_two}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Green" />
 
@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/question_vertical_margin"
-                    android:text="@{game.answers[2]}"
+                    android:text="@{gameVM.answer_three}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Yellow" />
 
@@ -115,7 +115,7 @@
                     android:id="@+id/fourthAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{game.answers[3]}"
+                    android:text="@{gameVM.answer_four}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Red" />
             </RadioGroup>
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
-                android:text="@string/nivel_puntuacion"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.11"

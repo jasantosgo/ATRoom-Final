@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vertical_margin"
                     android:checked="true"
-                    android:text="@{gameVM.answers[0]}"
+                    android:text="@{gameVM.answer_one}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Blue" />
 
@@ -120,7 +120,7 @@
                     android:id="@+id/secondAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{gameVM.answers[1]}"
+                    android:text="@{gameVM.answer_two}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Green" />
 
@@ -128,7 +128,7 @@
                     android:id="@+id/thirdAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{gameVM.answers[2]}"
+                    android:text="@{gameVM.answer_three}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Yellow" />
 
@@ -136,7 +136,7 @@
                     android:id="@+id/fourthAnswerRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{gameVM.answers[3]}"
+                    android:text="@{gameVM.answer_four}"
                     android:textSize="@dimen/answer_text_size"
                     tools:text="Red" />
 

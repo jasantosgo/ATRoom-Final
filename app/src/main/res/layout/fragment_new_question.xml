@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:ems="10"
-                    android:hint="@string/fourth_answer"
+                    android:hint="@string/write_hint"
                     android:inputType="textPersonName" />
 
             </LinearLayout>

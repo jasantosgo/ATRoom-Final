@@ -77,15 +77,27 @@ class NewQuestionFragment : Fragment() {
         newQVM.newQuestion.observe(viewLifecycleOwner, Observer { insertada ->
             if(insertada) {
                 findNavController().popBackStack()
+                hideKeyboard()
                 newQVM.onNewQuestionComplete()
             }
         })
 
         binding.btnBackQuest.setOnClickListener {
             findNavController().popBackStack()
+            hideKeyboard()
         }
         
         return binding.root
+    }
+
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }

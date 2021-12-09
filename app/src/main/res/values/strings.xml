@@ -70,4 +70,5 @@
     </string-array>
     <string name="inserted_question">Question has been inserted satisfactorily.</string>
     <string name="complete_fields">You must complete all the fields.</string>
+    <string name="write_hint">Write a hint...</string>
 </resources>

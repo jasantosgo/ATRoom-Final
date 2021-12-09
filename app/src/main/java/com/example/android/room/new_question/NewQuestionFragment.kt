@@ -76,8 +76,9 @@ class NewQuestionFragment : Fragment() {
 
         newQVM.newQuestion.observe(viewLifecycleOwner, Observer { insertada ->
             if(insertada) {
-                findNavController().popBackStack()
                 hideKeyboard()
+                Snackbar.make(requireContext(),requireView(),getString(R.string.inserted_question), Snackbar.LENGTH_SHORT).show()
+                findNavController().popBackStack()
                 newQVM.onNewQuestionComplete()
             }
         })

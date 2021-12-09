@@ -115,6 +115,7 @@ class GameFragment : Fragment() {
             }
         })
 
+        //sale del fragmento si se ha producido la carga inicial de la base de datos. Solo ocurre cuando se crea la BD.
         gameVM.cargaInicial.observe(viewLifecycleOwner, Observer { cargaInicialBD ->
             if(cargaInicialBD) {
                 Snackbar.make(requireContext(),requireView(),getString(R.string.carga_db),Snackbar.LENGTH_LONG).show()
@@ -126,6 +127,7 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
+    //muestra el mensaje emergente con la pista.
     private fun mostrarPista() {
         Snackbar.make(requireContext(),requireView(),gameVM.hint,Snackbar.LENGTH_LONG).show()
         gameVM.pistaUsada()

@@ -115,6 +115,14 @@ class GameFragment : Fragment() {
             }
         })
 
+        gameVM.cargaInicial.observe(viewLifecycleOwner, Observer { cargaInicialBD ->
+            if(cargaInicialBD) {
+                Snackbar.make(requireContext(),requireView(),getString(R.string.carga_db),Snackbar.LENGTH_LONG).show()
+                this.findNavController().popBackStack()
+                gameVM.cargaInicialComplete()
+            }
+        })
+
         return binding.root
     }
 

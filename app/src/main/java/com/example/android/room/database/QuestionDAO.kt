@@ -27,5 +27,7 @@ interface QuestionDAO {
     @Query("SELECT * FROM Question")
     fun selectQuestions(): LiveData<List<Question>>
 
+    @Query("SELECT COUNT(*) FROM Question")
+    suspend fun numQuestions(): Int
 }
 

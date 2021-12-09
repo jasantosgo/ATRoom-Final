@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [Question::class],
-    version = 2,
+    version = 4,
     exportSchema = false)
 abstract class QuestionDB : RoomDatabase() {
     //referencia al DAO

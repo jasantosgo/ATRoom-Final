@@ -62,6 +62,7 @@
     <string name="third_answer">Third answer</string>
     <string name="fourth_answer">Fourth answer</string>
     <string name="text_hint">Write a Hint:</string>
+    <string name="carga_db">DB Initial Load. Retry.</string>
     <string-array name="niveles">
         <item>Easy</item>
         <item>Medium</item>

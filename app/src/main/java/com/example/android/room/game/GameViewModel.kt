@@ -1,6 +1,7 @@
 package com.example.android.room.game
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import androidx.navigation.findNavController
@@ -21,6 +22,10 @@ class GameViewModel(
         get() = _nivel
     //numero de preguntas  a contestar
     val numQuestions: Int = (nivel+1)*2
+    //flag que indica que se ha ganado el juego.
+    private val _cargaInicial = MutableLiveData<Boolean>()
+    val cargaInicial: LiveData<Boolean>
+        get() = _cargaInicial
     //flag que indica que se ha ganado el juego.
     private val _gameWon = MutableLiveData<Boolean>()
     val gameWon: LiveData<Boolean>
@@ -72,28 +77,39 @@ class GameViewModel(
     val streak: Int
         get() = _streak
 
-
     init {
         _score.value = 0
         _questionIndex = 0
         onLoadQuestions(numQuestions)
-        //cargaDB()
     }
 
     private fun onLoadQuestions(numQuestions: Int) {
         viewModelScope.launch {
-            questions = selectQuestions(numQuestions)
-            setQuestion()
+            val numRegistros = comprobarRegistros()
+            Log.d("database","Base de datos con ${numRegistros} registros.")
+            if(numRegistros==0) {
+                Log.d("database","Base de datos vacia.")
+                cargaDB()
+                _cargaInicial.value = true
+            } else {
+                Log.d("database","Base de datos con registros.")
+                questions = selectQuestions(numQuestions)
+                setQuestion()
+            }
         }
+    }
+
+    private suspend fun comprobarRegistros(): Int {
+        return database.numQuestions()
     }
 
     private suspend fun selectQuestions(numQuestions: Int): List<Question> {
         return database.selectQuestions(numQuestions)
     }
 
-    private suspend fun insertQuestions(questions: List<Question>) {
-        database.insertQuestions(questions)
-    }
+//    private suspend fun insertQuestions(questions: List<Question>) {
+//        database.insertQuestions(questions)
+//    }
 
     private fun setQuestion() {
         _currentQuestion.value = questions[questionIndex]
@@ -150,7 +166,7 @@ class GameViewModel(
         _gameOver.value = false
     }
 
-    private fun cargaDB() {
+    private suspend fun cargaDB() {
         questions = listOf(
             Question(text = "What is Android Jetpack?",
                 answer_one = "All of these",
@@ -213,8 +229,10 @@ class GameViewModel(
                 answer_four = "<dbinding>",
                 hint = "Hint 10")
         )
-        viewModelScope.launch {
-            insertQuestions(questions)
-        }
+            database.insertQuestions(questions)
+    }
+
+    fun cargaInicialComplete() {
+        _cargaInicial.value = false
     }
 }

@@ -16,9 +16,11 @@
 
 package com.example.android.room.over
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -63,6 +65,9 @@ class GameOverFragment : Fragment() {
             intent.addCategory(Intent.CATEGORY_HOME)
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+            activity?.let {
+                it.finish()
+            }
         }
 
         setHasOptionsMenu(true)

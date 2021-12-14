@@ -28,6 +28,7 @@ import androidx.navigation.findNavController
 import com.example.android.room.won.GameWonFragmentArgs
 import com.example.android.room.R
 import com.example.android.room.databinding.FragmentGameOverBinding
+import kotlin.system.exitProcess
 
 class GameOverFragment : Fragment() {
 
@@ -67,6 +68,7 @@ class GameOverFragment : Fragment() {
             startActivity(intent)
             activity?.let {
                 it.finish()
+                exitProcess(0)
             }
         }
 

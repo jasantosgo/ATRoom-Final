@@ -41,7 +41,7 @@ class GameOverFragment : Fragment() {
         val binding: FragmentGameOverBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_game_over, container, false)
 
-        val args = GameWonFragmentArgs.fromBundle(requireArguments())
+        val args = GameOverFragmentArgs.fromBundle(requireArguments())
         gameOverVMF = GameOverViewModelFactory(args.numAciertos,args.numPreguntas,args.puntuacion)
         gameOverVM = ViewModelProvider(this,gameOverVMF).get(GameOverViewModel::class.java)
 
